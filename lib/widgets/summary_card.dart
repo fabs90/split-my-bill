@@ -22,7 +22,6 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16),
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(12),
@@ -40,23 +39,26 @@ class SummaryCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: CustomPaint(
-                painter: _PolygonBackgroundPainter(),
-              ),
+              child: CustomPaint(painter: _PolygonBackgroundPainter()),
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text('Total Bill', style: subtitleCardTextStyle),
-                      Text(
-                        '\$${totalBill.toStringAsFixed(2)}',
-                        style: titleCardTextStyle,
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Total Bill', style: subtitleCardTextStyle),
+                        FittedBox(
+                          child: Text(
+                            '\$${totalBill.toStringAsFixed(2)}',
+                            style: titleCardTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   IntrinsicWidth(
                     child: Column(

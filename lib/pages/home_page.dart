@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:split_my_bill/widgets/summary_card.dart';
+import 'package:split_my_bill/widgets/person_slider.dart';
 
 import '../style/theme.dart';
 
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double _personCount = 4;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,16 +24,30 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Text('Split Bill', style: titleTextStyle),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          SummaryCard(
-            totalBill: 0,
-            personCount: 0,
-            taxBill: 0,
-            tipPercentage: 0,
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            SummaryCard(
+              totalBill: 0,
+              personCount: _personCount.round(),
+              taxBill: 0,
+              tipPercentage: 0,
+            ),
+            SizedBox(height: 20),
+            PersonSlider(
+              value: _personCount,
+              min: 1,
+              max: 10,
+              onChanged: (val) {
+                setState(() {
+                  _personCount = val;
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
