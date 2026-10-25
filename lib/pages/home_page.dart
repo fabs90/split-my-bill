@@ -18,6 +18,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double _totalBill = 0;
   double _personCount = 4;
+  double _totalTip = 0;
+  double _tax = 0;
+
+  // Logic calculate
+  double get _taxAmount => _totalBill * (_tax / 100);
+  double get _tipAmount => _totalBill * (_totalTip / 100);
+  double get _grandTotal => _totalBill + _taxAmount + _tipAmount;
+  double get _billPerPerson => _grandTotal / _personCount.round();
+  // NOTE:'(For larger apps, developers move these variables and calculations out of the Widget into a controller/provider using packages like Provider, Riverpod, or BLoC, or built-in ChangeNotifier—keeping UI files purely for layout and logic files purely for math/data).'
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,18 +39,17 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: Text('Split Bill', style: titleTextStyle),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      body: SafeArea(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
               SummaryCard(
                 totalBill: _totalBill,
                 personCount: _personCount.round(),
-                taxBill: 0,
-                tipPercentage: 0,
+                taxBill: _tax,
+                tipPercentage: _totalTip,
               ),
               SizedBox(height: 20),
               PersonSlider(
@@ -55,9 +64,21 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               SizedBox(height: 20),
-              TipSelector(),
+              TipSelector(
+                onChanged: (value) {
+                  setState(() {
+                    _totalTip = value;
+                  });
+                },
+              ),
               SizedBox(height: 20),
-              TaxInput(),
+              TaxInput(
+                onChanged: (value) {
+                  setState(() {
+                    _tax = value;
+                  });
+                },
+              ),
               SizedBox(height: 20),
               NumpadScreen(
                 onChanged: (value) {
@@ -67,7 +88,21 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               SizedBox(height: 20),
-              SplitBillButton(),
+              SplitBillButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/result',
+                    arguments: {
+                      'billPerPerson': _billPerPerson,
+                      'totalBill': _totalBill,
+                      'personCount': _personCount.round(),
+                      'taxBill': _tax,
+                      'tipPercentage': _totalTip,
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

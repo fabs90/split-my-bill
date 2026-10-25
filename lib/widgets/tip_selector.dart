@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../style/theme.dart';
 
 class TipSelector extends StatefulWidget {
-  const TipSelector({super.key});
+  final ValueChanged<double> onChanged;
+  const TipSelector({super.key, required this.onChanged});
 
   @override
   State<TipSelector> createState() => _TipSelectorState();
@@ -11,8 +12,17 @@ class TipSelector extends StatefulWidget {
 
 class _TipSelectorState extends State<TipSelector> {
   int _selectedIndex = 0;
+  double _tipPercentage = 0.0;
 
   final List<String> _tip = ['0%', '10%', '20%', '30%', '40%'];
+
+  void _onTipSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _tipPercentage = double.parse(_tip[index].replaceAll('%', ''));
+      widget.onChanged(_tipPercentage);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +44,7 @@ class _TipSelectorState extends State<TipSelector> {
                 padding: const EdgeInsets.only(right: 12),
                 child: GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
+                    _onTipSelected(index);
                   },
                   child: Container(
                     width: 76,

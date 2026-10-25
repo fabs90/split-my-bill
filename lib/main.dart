@@ -19,7 +19,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'Split-My-Bill',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+        useMaterial3: true,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.black,
+          selectionHandleColor: Colors.black,
+          selectionColor: Colors.black26,
+        ),
+      ),
       // Theme sesuai mode dark atau light hp user
       themeMode: ThemeMode.system,
       initialRoute: '/',

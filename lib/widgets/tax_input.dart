@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../style/theme.dart';
 
 class TaxInput extends StatefulWidget {
-  const TaxInput({super.key});
+  final ValueChanged<double> onChanged;
+
+  const TaxInput({super.key, required this.onChanged});
 
   @override
   State<TaxInput> createState() => _TaxInputState();
@@ -33,6 +35,7 @@ class _TaxInputState extends State<TaxInput> {
       // Clamp menjaga agar pajak tetap di rentang 0 - 100
       _taxPercentage = (_taxPercentage + delta).clamp(0, 100);
       _controller.text = _taxPercentage.toString();
+      widget.onChanged(_taxPercentage.toDouble());
     });
   }
 
@@ -69,6 +72,7 @@ class _TaxInputState extends State<TaxInput> {
                   controller: _controller,
                   focusNode: _focusNode,
                   keyboardType: TextInputType.number,
+                  cursorColor: darkColor,
                   style: subtitleTextStyle,
                   decoration: InputDecoration(
                     border: InputBorder.none, // Hilangkan garis bawah bawaan!
@@ -79,6 +83,7 @@ class _TaxInputState extends State<TaxInput> {
                   ),
                   onChanged: (val) {
                     _taxPercentage = (int.tryParse(val) ?? 0).clamp(0, 100);
+                    widget.onChanged(_taxPercentage.toDouble());
                   },
                 ),
               ),

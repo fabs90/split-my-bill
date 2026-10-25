@@ -102,7 +102,7 @@ class SummaryCard extends StatelessWidget {
                             Text('Tax', style: subtitleCardTextStyle),
                             SizedBox(width: 10),
                             Text(
-                              _formatRupiah(taxBill),
+                              '${taxBill.toStringAsFixed(0)}%',
                               style: subtitleCardTextStyle,
                             ),
                           ],
