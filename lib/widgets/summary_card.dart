@@ -19,6 +19,16 @@ class SummaryCard extends StatelessWidget {
     required this.tipPercentage,
   });
 
+  // Helper untuk mengubah angka menjadi format Rupiah (contoh: Rp 50.000)
+  String _formatRupiah(double number) {
+    final int value = number.round();
+    final String formatted = value.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]}.',
+    );
+    return 'Rp $formatted';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +63,7 @@ class SummaryCard extends StatelessWidget {
                         Text('Total Bill', style: subtitleCardTextStyle),
                         FittedBox(
                           child: Text(
-                            '\$${totalBill.toStringAsFixed(2)}',
+                            _formatRupiah(totalBill),
                             style: titleCardTextStyle,
                           ),
                         ),
@@ -70,7 +80,7 @@ class SummaryCard extends StatelessWidget {
                             Text('Bill', style: subtitleCardTextStyle),
                             SizedBox(width: 10),
                             Text(
-                              '\$${totalBill.toStringAsFixed(2)}',
+                              _formatRupiah(totalBill),
                               style: subtitleCardTextStyle,
                             ),
                           ],
@@ -92,7 +102,7 @@ class SummaryCard extends StatelessWidget {
                             Text('Tax', style: subtitleCardTextStyle),
                             SizedBox(width: 10),
                             Text(
-                              '\$${taxBill.toStringAsFixed(2)}',
+                              _formatRupiah(taxBill),
                               style: subtitleCardTextStyle,
                             ),
                           ],
@@ -103,7 +113,7 @@ class SummaryCard extends StatelessWidget {
                             Text('Tip', style: subtitleCardTextStyle),
                             SizedBox(width: 10),
                             Text(
-                              '${tipPercentage.toStringAsFixed(2)}',
+                              '${tipPercentage.toStringAsFixed(0)}%',
                               style: subtitleCardTextStyle,
                             ),
                           ],

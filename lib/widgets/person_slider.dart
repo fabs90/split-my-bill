@@ -4,6 +4,7 @@ class PersonSlider extends StatefulWidget {
   final double value;
   final double max;
   final double min;
+  final int? divisions;
   final ValueChanged<double> onChanged;
 
   const PersonSlider({
@@ -11,6 +12,7 @@ class PersonSlider extends StatefulWidget {
     required this.value,
     this.max = 10,
     this.min = 1,
+    this.divisions = 9,
     required this.onChanged,
   });
 
@@ -21,9 +23,19 @@ class PersonSlider extends StatefulWidget {
 class _PersonSliderState extends State<PersonSlider> {
   void _updateValue(double localDx, double maxWidth) {
     // Menghitung rasio geser antara 0.0 - 1.0
-    final ratio = (localDx / maxWidth).clamp(0.0, 1.0);
+    final rawRatio = (localDx / maxWidth).clamp(0.0, 1.0);
+
+    // Jika divisions diatur, bulatkan rasio ke titik division terdekat (snapping)
+    final double ratio = (widget.divisions != null && widget.divisions! > 0)
+        ? (rawRatio * widget.divisions!).round() / widget.divisions!
+        : rawRatio;
+
     final newValue = widget.min + (widget.max - widget.min) * ratio;
-    widget.onChanged(newValue);
+
+    // Hanya panggil onChanged jika nilainya benar-benar berubah
+    if (newValue != widget.value) {
+      widget.onChanged(newValue);
+    }
   }
 
   @override
