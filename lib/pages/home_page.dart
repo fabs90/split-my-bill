@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:split_my_bill/widgets/summary_card.dart';
 import 'package:split_my_bill/widgets/person_slider.dart';
+import 'package:split_my_bill/widgets/tip_selector.dart';
 
 import '../style/theme.dart';
 
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20),
             SummaryCard(
@@ -46,6 +48,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
+            SizedBox(height: 20),
+            TipSelector(),
           ],
         ),
       ),

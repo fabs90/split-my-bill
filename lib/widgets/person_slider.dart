@@ -64,43 +64,47 @@ class _PersonSliderState extends State<PersonSlider> {
                     ),
                   ),
 
-                  // 2. Teks Angka Nilai di sisi kanan track
+                  // 2. Track Terisi (Warna Gelap)
+                  Container(
+                    width: filledWidth,
+                    height: barHeight,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF131A22),
+                      borderRadius: BorderRadius.horizontal(
+                        left: const Radius.circular(4),
+                        right: Radius.circular(progress >= 1.0 ? 4 : 0),
+                      ),
+                    ),
+                  ),
+
+                  // 3. Ikon di sisi kiri track
+                  Positioned(
+                    left: 16,
+                    child: Icon(
+                      Icons.group_outlined,
+                      color: filledWidth > 26
+                          ? Colors.white
+                          : const Color(0xFF131A22),
+                      size: 20,
+                    ),
+                  ),
+
+                  // 4. Teks Angka Nilai di sisi kanan track
                   Positioned(
                     right: 16,
                     child: Text(
                       widget.value.round().toString(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: filledWidth > totalWidth - 28
+                            ? Colors.white
+                            : Colors.black87,
                       ),
                     ),
                   ),
 
-                  // 3. Track Terisi (Warna Gelap)
-                  Container(
-                    width: filledWidth,
-                    height: barHeight,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF131A22),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        bottomLeft: Radius.circular(4),
-                      ),
-                    ),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 12),
-                    // Ikon tetap terlihat selama lebar track cukup
-                    child: filledWidth > 36
-                        ? const Icon(
-                            Icons.group_outlined,
-                            color: Colors.white,
-                            size: 20,
-                          )
-                        : null,
-                  ),
-
-                  // 4. Handle Vertikal Kapsul
+                  // 5. Handle Vertikal Kapsul
                   Positioned(
                     left: (filledWidth - (handleWidth / 2)).clamp(
                       0.0,
